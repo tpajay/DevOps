@@ -12,6 +12,12 @@
 # vagrant ssh webserver
 # vagrant ssh workstation
 #
+# vagrant up jenkins
+# vagrant ssh jenkins
+#
+# vagrant up dockerserver01
+# vagrant ssh dockerserver01
+#
 # create quick default server:
 #  vagrant init ubuntu/trusty64
 #
