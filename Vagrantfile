@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
    end
   config.vm.define "dockerserver01" do |docker|
     docker.vm.box = "ubuntu/trusty64"
-    #docker.vm.network "private_network", ip:"192.168.0.252"
+    docker.vm.network "private_network", ip:"192.168.0.249"
     docker.vm.hostname = "dockerserver01"
   end    
 end
