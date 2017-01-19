@@ -12,6 +12,9 @@
 # vagrant ssh webserver
 # vagrant ssh workstation
 #
+# create quick default server:
+#  vagrant init ubuntu/trusty64
+#
 Vagrant.configure("2") do |config|
   config.vm.define "webserver" do |webserver|
     webserver.vm.box = "ubuntu/trusty64"
@@ -38,4 +41,9 @@ Vagrant.configure("2") do |config|
 		v.cpus = 2
 	end
    end
+  config.vm.define "dockerserver01" do |docker|
+    docker.vm.box = "ubuntu/trusty64"
+    #docker.vm.network "private_network", ip:"192.168.0.252"
+    docker.vm.hostname = "dockerserver01"
+  end    
 end
