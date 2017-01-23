@@ -1,0 +1,3 @@
+vagrant up swarmmanager
+vagrant up swarmagent1
+vagrant up swarmagent2
