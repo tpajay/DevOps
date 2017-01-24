@@ -1,0 +1,10 @@
+Vagrant.configure(2) do |config|
+  config.vm.define "kubernetes" do |kubernetes|
+    kubernetes.vm.box = "ubuntu/trusty64"
+    kubernetes.vm.network "private_network", ip: "192.168.0.251"
+    kubernetes.vm.hostname = "kubernetes.example.com"
+	kubernetes.vm.provider "virtualbox" do |v| 
+		v.memory = 1024
+	end
+  end
+end
