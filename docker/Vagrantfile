@@ -1,0 +1,23 @@
+# vagrant up dockerserver01
+# vagrant ssh dockerserver01
+#
+# create quick default server:
+#  vagrant init ubuntu/trusty64
+#
+Vagrant.configure("2") do |config|
+  config.vm.define "dockerserver01" do |docker1|
+    docker1.vm.box = "ubuntu/trusty64"
+    docker1.vm.network "private_network", ip:"192.168.0.249"
+    docker1.vm.hostname = "dockerserver01"
+  end
+  config.vm.define "dockerserver02" do |docker2|
+    docker2.vm.box = "ubuntu/trusty64"
+    docker2.vm.network "private_network", ip:"192.168.0.249"
+    docker2.vm.hostname = "dockerserver02"
+  end
+  config.vm.define "dockerserver03" do |docker3|
+    docker3.vm.box = "ubuntu/trusty64"
+    docker3.vm.network "private_network", ip:"192.168.0.249"
+    docker3.vm.hostname = "dockerserver03"
+  end  
+end
