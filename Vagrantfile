@@ -16,6 +16,17 @@
 # create quick default server:
 #  vagrant init ubuntu/trusty64
 #
+
+
+# Remove older chef version
+$script = <<SCRIPT
+echo Removing older chef version...
+sudo apt-get -y remove chef chef-zero
+sudo dpkg --purge chef
+sudo rm -rf /etc/chef
+SCRIPT
+
+
 Vagrant.configure("2") do |config|
   config.vm.define "webserver" do |webserver|
     webserver.vm.box = "ubuntu/trusty64"
@@ -47,7 +58,7 @@ Vagrant.configure("2") do |config|
     node.vm.network "private_network", ip: "192.168.0.3"
     node.vm.hostname = "node.example.com"
     node.vm.provision "shell", inline: $script
-  end  
+  end
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.box = "ubuntu/trusty64"
     jenkins.vm.network "private_network", ip:"192.168.0.252"
