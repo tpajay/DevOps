@@ -1,26 +1,32 @@
 #
-# Vagrant file to spin up
-# Ansible server
-# Webserver (ansible host)
-# Workstation (for Chef) to setup knife
+# Vagrant file to spin up:
 #
-# vagrant up ansible
-# vagrant up webserver
-# vagrant up workstation
+# webserver (ansible host)
+# workstation (for Chef) to setup knife
+# chef (Chef server)
+# node (chef node)
+# jenkins (Jenkins server)
+# dockerserver01, dockerserver02, dockerserver03
 #
-# vagrant ssh ansible
-# vagrant ssh webserver
-# vagrant ssh workstation
-#
-# vagrant up jenkins
-# vagrant ssh jenkins
-#
-# vagrant up dockerserver01
-# vagrant ssh dockerserver01
+# vagrant up server
+# vagrant ssh server
+# vagrant halt server
+# vagrant destroy server
 #
 # create quick default server:
 #  vagrant init ubuntu/trusty64
 #
+
+
+# Remove older chef version
+$script = <<SCRIPT
+echo Removing older chef version...
+sudo apt-get -y remove chef chef-zero
+sudo dpkg --purge chef
+sudo rm -rf /etc/chef
+SCRIPT
+
+
 Vagrant.configure("2") do |config|
   config.vm.define "webserver" do |webserver|
     webserver.vm.box = "ubuntu/trusty64"
@@ -38,6 +44,21 @@ Vagrant.configure("2") do |config|
     workstation.vm.network "private_network", ip:"192.168.0.252"
     workstation.vm.hostname = "workstation.example.com"
   end 
+  config.vm.define "chef" do |chef|
+    chef.vm.box = "ubuntu/trusty64"
+    chef.vm.network "private_network", ip: "192.168.0.253"
+    chef.vm.hostname = "chef.example.com"
+    chef.vm.provider "virtualbox" do |v|
+       v.memory = 4096
+       v.cpus = 2
+    end
+  end
+  config.vm.define "node" do |node|
+    node.vm.box = "ubuntu/trusty64"
+    node.vm.network "private_network", ip: "192.168.0.3"
+    node.vm.hostname = "node.example.com"
+    node.vm.provision "shell", inline: $script
+  end
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.box = "ubuntu/trusty64"
     jenkins.vm.network "private_network", ip:"192.168.0.252"
