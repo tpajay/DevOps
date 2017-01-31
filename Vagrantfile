@@ -1,22 +1,17 @@
 #
-# Vagrant file to spin up
-# Ansible server
-# Webserver (ansible host)
-# Workstation (for Chef) to setup knife
+# Vagrant file to spin up:
 #
-# vagrant up ansible
-# vagrant up webserver
-# vagrant up workstation
+# webserver (ansible host)
+# workstation (for Chef) to setup knife
+# chef (Chef server)
+# node (chef node)
+# jenkins (Jenkins server)
+# dockerserver01, dockerserver02, dockerserver03
 #
-# vagrant ssh ansible
-# vagrant ssh webserver
-# vagrant ssh workstation
-#
-# vagrant up jenkins
-# vagrant ssh jenkins
-#
-# vagrant up dockerserver01
-# vagrant ssh dockerserver01
+# vagrant up server
+# vagrant ssh server
+# vagrant halt server
+# vagrant destroy server
 #
 # create quick default server:
 #  vagrant init ubuntu/trusty64
@@ -38,6 +33,21 @@ Vagrant.configure("2") do |config|
     workstation.vm.network "private_network", ip:"192.168.0.252"
     workstation.vm.hostname = "workstation.example.com"
   end 
+  config.vm.define "chef" do |chef|
+    chef.vm.box = "ubuntu/trusty64"
+    chef.vm.network "private_network", ip: "192.168.0.253"
+    chef.vm.hostname = "chef.example.com"
+    chef.vm.provider "virtualbox" do |v|
+       v.memory = 4096
+       v.cpus = 2
+    end
+  end
+  config.vm.define "node" do |node|
+    node.vm.box = "ubuntu/trusty64"
+    node.vm.network "private_network", ip: "192.168.0.3"
+    node.vm.hostname = "node.example.com"
+    node.vm.provision "shell", inline: $script
+  end  
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.box = "ubuntu/trusty64"
     jenkins.vm.network "private_network", ip:"192.168.0.252"
@@ -47,9 +57,19 @@ Vagrant.configure("2") do |config|
 		v.cpus = 2
 	end
    end
-  config.vm.define "dockerserver01" do |docker|
-    docker.vm.box = "ubuntu/trusty64"
-    docker.vm.network "private_network", ip:"192.168.0.249"
-    docker.vm.hostname = "dockerserver01"
-  end    
+  config.vm.define "dockerserver01" do |docker1|
+    docker1.vm.box = "ubuntu/trusty64"
+    docker1.vm.network "private_network", ip:"192.168.0.249"
+    docker1.vm.hostname = "dockerserver01"
+  end
+  config.vm.define "dockerserver02" do |docker2|
+    docker2.vm.box = "ubuntu/trusty64"
+    docker2.vm.network "private_network", ip:"192.168.0.249"
+    docker2.vm.hostname = "dockerserver02"
+  end
+  config.vm.define "dockerserver03" do |docker3|
+    docker3.vm.box = "ubuntu/trusty64"
+    docker3.vm.network "private_network", ip:"192.168.0.249"
+    docker3.vm.hostname = "dockerserver03"
+  end  
 end
