@@ -2,7 +2,6 @@
 DevOps / Configuration Management / Continuous Integration repo.  This respository is for anything related.  VirtualBox ~ Vagrant ~ Ansible ~ Chef ~ Jenkins ~ Docker ~ Kubernetes
 
 <br/>
-<br/>
 
 <b>NOTES: Docker Swarm</b>
 
